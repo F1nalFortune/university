@@ -10,22 +10,24 @@ $dbname = "university";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-  $_SESSION["username"] = $_POST['username'];
-  $_SESSION["pass"] = $_POST['password'];
-  header("Location: home.php");
-  // $sql="SELECT * FROM users WHERE username={$_POST['username']} AND password={$_POST['password']}";
-  // $results = $conn->query($sql);
-  // if ($results->num_rows > 0){
-  //   while($data = $results->fetch_assoc()){
-  //     $_SESSION['id']=$data['id'];
-  //     $_SESSION['username'] = $data['username'];
-  //     $_SESSION['success'] = "You are now logged in!";
-  //   }
-  // }else{
-  //   echo "error retrieving user";
-  // }
+  // $_SESSION["username"] = $_POST['username'];
+  // $_SESSION["pass"] = $_POST['password'];
+  $logged_user=$_POST['username'];
+  $logged_pw=$_POST['password'];
+  $sql="SELECT * FROM university.users WHERE users.username='{$logged_user}' AND users.password='{$logged_pw}'";
+  $results = $conn->query($sql);
+  if ($results->num_rows > 0){
+    while($data = $results->fetch_assoc()){
+      $_SESSION['id']=$data['id'];
+      $_SESSION['username'] = $data['username'];
+      $_SESSION['success'] = "You are now logged in!";
+      header("Location: home.php");
+    }
+  }else{
+    echo "error retrieving user";
+  }
 
-  // $password = crypt($password, '$1$something');
+  $password = crypt($password, '$1$something');
 
 
 

@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
   //set parameters and execute
   $user = $_POST['username'];
-  $pass = $_POST['password'];
+  $pass = crypt($_POST['password'], '$1$mysalt');
   $stmt->execute();
   echo "New user created successfully";
 
